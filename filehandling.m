@@ -50,9 +50,11 @@ outputcell = cell(slices, 2);
 for i = 1:slices
     tmp = reshape(resultcell{i,1}.',[],1).'; % we have to transpose this twice as we need both reshape and csvwrite to have the right 'look at things
     tmpsize = size(tmp,2);
-    outmat = zeros(2,tmpsize);
-    outmat(1,:) = [1:tmpsize];
-    outmat(2,:) = tmp;
+    outmat = zeros(2,tmpsize+1);
+    outmat(1,:) = [1:tmpsize+1];
+    outmat(2,1:tmpsize) = tmp; % we do this in order to have a place to store the T attribute
+    outmat(2,tmpsize+1) = resultcell{i,2};
+    
     outputcell{i,1} = outmat;
     % taken from http://stackoverflow.com/questions/2724020/how-do-you-concatenate-the-rows-of-a-matrix-into-a-vector-in-matlab
     outputcell{i,2} = annotationm(i,2);
