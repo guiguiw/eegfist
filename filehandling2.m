@@ -1,17 +1,12 @@
-function createcsvfromdata ( name )
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
 %http://www.cs.ccsu.edu/~markov/weka-tutorial.pdf
 
 cd ~/datafiles
-matpath = strcat(name,'_edfm.mat');
-load(matpath);
+load('S108R03_edfm.mat');
 data = val;
 cd annot
-annotpath = strcat(name, '.edf.annot');
-
-annotationm=load(annotpath);
-slices = size(annotationm,1)-1; %we have size-1 here as well just have 29 intervalls by 30 entries ...
+load('S108R03.edf.annot');
+annotationm=S108R03_edf;
+slices = size(S108R03_edf,1)-1; %we have size-1 here as well just have 29 intervalls by 30 entries ...
 datacell = cell(slices,2);
 resultcell = cell(slices,2);
 for i=1:slices
@@ -50,26 +45,49 @@ for i = 1:slices
     resultcell{i,2} = annotationm(i,2);
 end;
 
+
+atributecell = cell(slices,1);
+
 outputcell = cell(slices, 2);
 
+outmat = zeros(slices,32832);
 for i = 1:slices
+
     tmp = reshape(resultcell{i,1}.',[],1).'; % we have to transpose this twice as we need both reshape and csvwrite to have the right 'look at things
     tmpsize = size(tmp,2);
-    outmat = zeros(2,tmpsize+1);
-    outmat(1,:) = [1:tmpsize+1];
-    outmat(2,1:tmpsize) = tmp; % we do this in order to have a place to store the T attribute
-    outmat(2,tmpsize+1) = resultcell{i,2};
+%    outmat = zeros(slices,tmpsize);
+    outmat(i,:) = tmp; % we do this in order to have a place to store the T attribut
+    % taken from http://stackoverflow.com/questions/2724020/how-do-you-concatenate-the-rows-of-a-matrix-into-a-vector-in-matlab
+    atributecell{i,1} = annotationm(i,2);
     
-    outputcell{i,1} = outmat;
+    outputcell{i,1} = outmat(i,:);
     % taken from http://stackoverflow.com/questions/2724020/how-do-you-concatenate-the-rows-of-a-matrix-into-a-vector-in-matlab
     outputcell{i,2} = annotationm(i,2);
+    
 end
 
-cd csv
-for i = 1:slices
-    csvwrite(strcat( name,'_',num2str(i),'.csv'), outputcell{i,1}(2,:));
-end
-cd ..
 
+write = true;
+
+if write
+    for i = 1:slices
+        if resultcell{i,2} == 0
+            cd 0
+            %export(outputcell{i,1},'file',strcat(num2str(i),'.csv'),'Delimiter',',');
+            %dlmwrite(strcat(num2str(i),'.csv'), outputcell{i,1}, 'delimiter', ',');
+            csvwrite(strcat(num2str(i),'.csv'), outputcell{i,1});
+            cd ..
+        end
+        if resultcell{i,2} == 1
+            cd 1
+            csvwrite(strcat(num2str(i),'.csv'), outputcell{i,1});
+            cd ..
+        end
+        if resultcell{i,2} == 2
+            cd 2
+            csvwrite(strcat(num2str(i),'.csv'), outputcell{i,1});
+            cd ..
+        end
+    end
 end
 

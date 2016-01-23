@@ -59,23 +59,26 @@ for i = 1:slices
     % taken from http://stackoverflow.com/questions/2724020/how-do-you-concatenate-the-rows-of-a-matrix-into-a-vector-in-matlab
     outputcell{i,2} = annotationm(i,2);
 end
+write = false;
 
-for i = 1:slices
-    if resultcell{i,2} == 0
-        cd 0
-        %export(outputcell{i,1},'file',strcat(num2str(i),'.csv'),'Delimiter',',');
-        %dlmwrite(strcat(num2str(i),'.csv'), outputcell{i,1}, 'delimiter', ',');
-        csvwrite(strcat(num2str(i),'.csv'), outputcell{i,1});
-        cd ..
-    end
-    if resultcell{i,2} == 1
-        cd 1
-        csvwrite(strcat(num2str(i),'.csv'), outputcell{i,1});
-        cd ..
-    end
-    if resultcell{i,2} == 2
-        cd 2
-        csvwrite(strcat(num2str(i),'.csv'), outputcell{i,1});
-        cd ..
+if write
+    for i = 1:slices
+        if resultcell{i,2} == 0
+            cd 0
+            %export(outputcell{i,1},'file',strcat(num2str(i),'.csv'),'Delimiter',',');
+            %dlmwrite(strcat(num2str(i),'.csv'), outputcell{i,1}, 'delimiter', ',');
+            csvwrite(strcat(num2str(i),'.csv'), outputcell{i,1});
+            cd ..
+        end
+        if resultcell{i,2} == 1
+            cd 1
+            csvwrite(strcat(num2str(i),'.csv'), outputcell{i,1});
+            cd ..
+        end
+        if resultcell{i,2} == 2
+            cd 2
+            csvwrite(strcat(num2str(i),'.csv'), outputcell{i,1});
+            cd ..
+        end
     end
 end
