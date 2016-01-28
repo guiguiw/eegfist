@@ -11,6 +11,6 @@ parfor i = 1:109
             filename = strcat(filename, '0');
         end
         filename = strcat(filename, num2str(j));
-        createcsvfromdata(filename);
+        createcsvfromdata2(filename);
     end
 end
