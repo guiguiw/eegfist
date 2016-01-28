@@ -1,19 +1,14 @@
-function createcsvfromdata2 ( name )
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
 %http://www.cs.ccsu.edu/~markov/weka-tutorial.pdf
 
 cd ~/datafiles
-matpath = strcat(name,'_edfm.mat');
-load(matpath);
+load('S108R03_edfm.mat');
 data = val;
 cd annot
-annotpath = strcat(name, '.edf.annot');
-
-annotationm=load(annotpath);
-slices = size(annotationm,1)-1; %we have size-1 here as well just have 29 intervalls by 30 entries ...
+load('S108R03.edf.annot');
+annotationm=S108R03_edf;
+slices = size(S108R03_edf,1)-1; %we have size-1 here as well just have 29 intervalls by 30 entries ...
 datacell = cell(slices,2);
-fftcell = cell(slices,2);
+resultcell = cell(slices,2);
 for i=1:slices
     curbeginning = annotationm(i,1);
     curend = annotationm(i+1,1);
@@ -21,7 +16,6 @@ for i=1:slices
     datacell{i,1} = tempmat;
     datacell{i,2} = annotationm(i,2);
 end
-
 
 Fs = 160;
 L = length(datacell{i,1});
@@ -64,24 +58,14 @@ for i = 1:slices
         tmpmat(5) = mymax;
         tmpmat(6) = maxpos;
         
-        tmpmat(7) = moment(datacell{i,1}(runner,:),2);
-        tmpmat(8) = moment(datacell{i,1}(runner,:),3);
-        
-        tmpmat(9) = moment(fftcell{i,1}(runner,:),2);
-        tmpmat(10) = moment(fftcell{i,1}(runner,:),3);
-        
-        tmpmat(11) = std(fftcell{i,1}(runner,:));
-        tmpmat(12) = var(fftcell{i,1}(runner,:));
+        tmpmat(7) = std(fftcell{i,1}(runner,:));
+        tmpmat(8) = var(fftcell{i,1}(runner,:));
         [mymin,minpos] = min(fftcell{i,1}(runner,:));
-        tmpmat(13) = mymin; 
-        tmpmat(14) = minpos;
+        tmpmat(9) = mymin; 
+        tmpmat(10) = minpos;
         [mymax,maxpos] = max(fftcell{i,1}(runner,:));
-        tmpmat(15) = mymax;
-        tmpmat(16) = maxpos;
-        
-        
-        %moment(x,order)
-        
+        tmpmat(11) = mymax;
+        tmpmat(12) = maxpos;
         tempoutcell{i,runner} = tmpmat;
     end
 end
@@ -91,13 +75,13 @@ atributecell = cell(slices,1);
 
 outputcell = cell(slices, 2);
 
-outmat = zeros(slices,64*16+1);
+outmat = zeros(slices,64*12+1);
 for i = 1:slices
-    tmp = zeros(1,16*64);
+    tmp = zeros(1,12*64);
     for curpos = 1:64
         %size(reshape(tempoutcell{i,curpos}.',[],1).')
         %size(tmp(((curpos-1)*12)+1:(curpos*12)))
-        tmp(((curpos-1)*16)+1:(curpos*16)) = reshape(tempoutcell{i,curpos}.',[],1).'; % we have to transpose this twice as we need both reshape and csvwrite to have the right 'look at things
+        tmp(((curpos-1)*12)+1:(curpos*12)) = reshape(tempoutcell{i,curpos}.',[],1).'; % we have to transpose this twice as we need both reshape and csvwrite to have the right 'look at things
     end
     tmpsize = size(tmp,2);
 %    outmat = zeros(slices,tmpsize);
@@ -111,18 +95,19 @@ for i = 1:slices
 end
 
 %tends to be usefull: http://linuxconfig.org/how-to-count-number-of-columns-in-csv-file-using-bash-shell
+
 write = false;
 cd csv
 for i = 1:slices
     if fftcell{i,2} == 0
         if write == true
-            csvwrite(strcat(name,'_', num2str(i),'.csv'), outputcell{i,1});
+            csvwrite(strcat(num2str(i),'.csv'), outputcell{i,1});
             write = false;
         else 
             write = true;
         end
     else
-        csvwrite(strcat(name,'_', num2str(i),'.csv'), outputcell{i,1});
+        csvwrite(strcat(num2str(i),'.csv'), outputcell{i,1});
     end
 end
 cd ..
