@@ -1,3 +1,4 @@
+pwd
 parfor i = 1:109
     for j = [3,4,7,8,11,12]
         filename = 'S';
