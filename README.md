@@ -15,7 +15,7 @@ This is an attempt to create a classifier for the data provided at https://www.p
    - T0 (both fists relaxed) -> class 0 in our code
    - T1_left (left fist closed or both fists closed) -> class 1 in our code
    - T1_right (right fist closed) -> class 2 in our code
-- current feature vectors yield a classification rate of 69% when T1_left and T1_right are combined in one single class and compared to the feature fector T3 (relaxed)
+- current feature vectors yield a classification rate of 69% when T1_left and T1_right are combined in one single class "fist closed" and compared to the feature fector T3 (relaxed)
 - current fv yield non-usable results when run on class T1_left vs T1_right (roughly 51%)
 - next step would be to try to improve the fv
 
