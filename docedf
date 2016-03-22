@@ -1,0 +1,4 @@
+- reading the edf files with edfread proves to be impossible
+- while there is rdsamp, using wfdb2mat proves to be the easier approach
+- rdann is seriously broken, but fortunately trdedfann (which was meant for edf+ only) proves to yield usable results. unfortunately, it will just pipe everything to stdout, so were gonna have to parse things ourselves
+- use the scripts provided to run over all the input files
