@@ -1,5 +1,13 @@
 # eegfist
-This is an attempt to create a classifier for the data provided at https://www.physionet.org/pn4/eegmmidb/. This data yields 64 channels of EEG data while performing various tasks.
+This is an attempt to create a classifier for the data provided at https://www.physionet.org/pn4/eegmmidb/. This data yields 64 channels of EEG data while performing various tasks. The following tasks have been adressed (description taken from the projects website):
+
+#### Task 1
+
+> A target appears on either the left or the right side of the screen. The subject opens and closes the corresponding fist until the target disappears. Then the subject relaxes.
+
+#### Task 3
+
+> A target appears on either the top or the bottom of the screen. The subject opens and closes either both fists (if the target is on top) or both feet (if the target is on the bottom) until the target disappears. Then the subject relaxes.
 
 ## Short summary
 - use the data provided for Task 1 and Task 3
@@ -11,7 +19,7 @@ This is an attempt to create a classifier for the data provided at https://www.p
 - current fvs yield non-usable results when run on class 1 vs class 2 (roughly 51%)
 
 ## Long summary
- - reading the edfs proved to be a pita. some scripts have been created to mash up the working parts of various edfreaders (see docedf file for details)
+ - reading the edfs proved to be kind of troublesome. some scripts have been created to glue the working parts of various edflibs together (see docedf file for details)
  - matlab has been chosen for signal processing because it provides easy access to a lot of usefull signal processing libraries
  - __first (naive) approach__
    - calculate the FFT for each channel.
