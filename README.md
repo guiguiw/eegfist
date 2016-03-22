@@ -39,6 +39,7 @@ This is an attempt to create a classifier for the data provided at https://www.p
     - simple statistical features like standard derivation and variance got integrated into the feature vector
     - fft has been reduced to a total of 12 values per channel, being the result of calculating the median over 5 values each
     - just uses the channels 9,10,11,12 and 13, as [TODO: insert paper here] suggests that it should be sufficient
+    - we replaced the big csv with one single csv for each sample, allowing for easier combinations of different samples. A script has been created to combine theese csv back into one single csv to reimport into matlab (_cleanup.sh_).
   - results: roughly 40%, so still no "real" improvement.
  - __third approach__
   - reduced the problem to a two-class-problem by combining both T1_left and T1_right into a single class
