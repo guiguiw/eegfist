@@ -1,6 +1,6 @@
 pwd
 parfor i = 1:109
-    for j = [3,4,7,8,11,12]
+   for j = [3,4,7,8,11,12]
         filename = 'S';
         if i < 10
             filename = strcat(filename, '00');
@@ -12,6 +12,6 @@ parfor i = 1:109
             filename = strcat(filename, '0');
         end
         filename = strcat(filename, num2str(j));
-        createcsvfromdata(filename);
+        createcsvfromdata2(filename);
     end
 end

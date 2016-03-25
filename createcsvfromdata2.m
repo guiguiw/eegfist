@@ -140,16 +140,10 @@ for i = 1:slices
 end
 
 %tends to be usefull: http://linuxconfig.org/how-to-count-number-of-columns-in-csv-file-using-bash-shell
-write = false;
 cd csv
 for i = 1:slices
     if true % fftcell{i,2} ~= 0
-        if write == true
-            csvwrite(strcat(name,'_', num2str(i),'.csv'), outputcell{i,1});
-            write = false;
-        else 
-            write = true;
-        end
+        csvwrite(strcat(name,'_', num2str(i),'.csv'), outputcell{i,1});
     else
        % csvwrite(strcat(name,'_', num2str(i),'.csv'), outputcell{i,1});
     end
